@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SD_340_W22SD_Lab_3.Models
 {
@@ -11,6 +12,8 @@ namespace SD_340_W22SD_Lab_3.Models
         public Direction? Direction { get; set; }
         public bool? RampAccessible { get; set; }
         public bool? BicycleAccessible { get; set; }
-        public Queue<ScheduledStop> ScheduledStops { get; set; } = new Queue<ScheduledStop>();
+
+        public ICollection<ScheduledStop> StopSchedules { get; set; } = new HashSet<ScheduledStop>();
+        //Changed from Queue to ICollection
     }
 }
