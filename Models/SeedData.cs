@@ -61,6 +61,7 @@ namespace SD_340_W22SD_Lab_3.Models
                 route.StopSchedules.Add(scheduledStop4);
                 route.StopSchedules.Add(scheduledStop5);
                 context.Routes.Add(route);
+
                 Route route2 = new Route();
                 route2.Name = "Pembina";
                 route2.BicycleAccessible = true;
@@ -70,7 +71,7 @@ namespace SD_340_W22SD_Lab_3.Models
                 route2.StopSchedules.Add(scheduledStop1);
                 route2.StopSchedules.Add(scheduledStop2);
                 route2.StopSchedules.Add(scheduledStop5);
-                context.Routes.Add(route);
+                context.Routes.Add(route2);
                 await context.SaveChangesAsync();
             }
         }
