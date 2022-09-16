@@ -12,8 +12,8 @@ using SD_340_W22SD_Lab_3.Data;
 namespace SD_340_W22SD_Lab_3.Migrations
 {
     [DbContext(typeof(SD_340_W22SD_Lab_3Context))]
-    [Migration("20220913005044_InitialCreateModels")]
-    partial class InitialCreateModels
+    [Migration("20220916033526_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -34,38 +34,35 @@ namespace SD_340_W22SD_Lab_3.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Direction");
+                    b.ToTable("Directions");
                 });
 
             modelBuilder.Entity("SD_340_W22SD_Lab_3.Models.Route", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Number")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Number"), 1L, 1);
 
-                    b.Property<bool>("BicycleAccessible")
+                    b.Property<bool?>("BicycleAccessible")
                         .HasColumnType("bit");
 
-                    b.Property<int>("DirectionId")
+                    b.Property<int?>("DirectionId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("RampAccessible")
+                    b.Property<bool?>("RampAccessible")
                         .HasColumnType("bit");
 
-                    b.HasKey("Id");
+                    b.HasKey("Number");
 
                     b.HasIndex("DirectionId");
 
-                    b.ToTable("Route");
+                    b.ToTable("Routes");
                 });
 
             modelBuilder.Entity("SD_340_W22SD_Lab_3.Models.ScheduledStop", b =>
@@ -76,47 +73,44 @@ namespace SD_340_W22SD_Lab_3.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("RouteId")
+                    b.Property<int?>("RouteNumber")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("ScheduledArrival")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("StopId")
+                    b.Property<int?>("StopNumber")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RouteId");
+                    b.HasIndex("RouteNumber");
 
-                    b.HasIndex("StopId");
+                    b.HasIndex("StopNumber");
 
-                    b.ToTable("ScheduledStop");
+                    b.ToTable("ScheduledStops");
                 });
 
             modelBuilder.Entity("SD_340_W22SD_Lab_3.Models.Stop", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("Number")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Number"), 1L, 1);
 
-                    b.Property<int>("DirectionId")
+                    b.Property<int?>("DirectionId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
-
                     b.Property<string>("Street")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("Number");
 
                     b.HasIndex("DirectionId");
 
@@ -127,9 +121,7 @@ namespace SD_340_W22SD_Lab_3.Migrations
                 {
                     b.HasOne("SD_340_W22SD_Lab_3.Models.Direction", "Direction")
                         .WithMany()
-                        .HasForeignKey("DirectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DirectionId");
 
                     b.Navigation("Direction");
                 });
@@ -137,12 +129,12 @@ namespace SD_340_W22SD_Lab_3.Migrations
             modelBuilder.Entity("SD_340_W22SD_Lab_3.Models.ScheduledStop", b =>
                 {
                     b.HasOne("SD_340_W22SD_Lab_3.Models.Route", "Route")
-                        .WithMany("ScheduledStops")
-                        .HasForeignKey("RouteId");
+                        .WithMany("StopSchedules")
+                        .HasForeignKey("RouteNumber");
 
                     b.HasOne("SD_340_W22SD_Lab_3.Models.Stop", "Stop")
                         .WithMany("StopSchedules")
-                        .HasForeignKey("StopId");
+                        .HasForeignKey("StopNumber");
 
                     b.Navigation("Route");
 
@@ -153,16 +145,14 @@ namespace SD_340_W22SD_Lab_3.Migrations
                 {
                     b.HasOne("SD_340_W22SD_Lab_3.Models.Direction", "Direction")
                         .WithMany()
-                        .HasForeignKey("DirectionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("DirectionId");
 
                     b.Navigation("Direction");
                 });
 
             modelBuilder.Entity("SD_340_W22SD_Lab_3.Models.Route", b =>
                 {
-                    b.Navigation("ScheduledStops");
+                    b.Navigation("StopSchedules");
                 });
 
             modelBuilder.Entity("SD_340_W22SD_Lab_3.Models.Stop", b =>

@@ -15,15 +15,12 @@ namespace SD_340_W22SD_Lab_3.Models
             if(!context.Routes.Any())
             {
                 Stop stop1 = new Stop();
-                stop1.Number = 221;
                 stop1.Street = "Taylor Ave";
                 stop1.Name = "Taylor North Stop";
                 Stop stop2 = new Stop();
-                stop2.Number = 222;
                 stop2.Street = "Ebby Ave";
                 stop2.Name = "Ebby North Stop";
                 Stop stop3 = new Stop();
-                stop3.Number = 223;
                 stop3.Street = "Harrow Ave";
                 stop3.Name = "Harrow North Stop";
                 context.Stop.Add(stop1);
