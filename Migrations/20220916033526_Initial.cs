@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SD_340_W22SD_Lab_3.Migrations
 {
-    public partial class InitialCreateModels : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Direction",
+                name: "Directions",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
@@ -18,93 +18,89 @@ namespace SD_340_W22SD_Lab_3.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Direction", x => x.Id);
+                    table.PrimaryKey("PK_Directions", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Route",
+                name: "Routes",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Number = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Number = table.Column<int>(type: "int", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DirectionId = table.Column<int>(type: "int", nullable: false),
-                    RampAccessible = table.Column<bool>(type: "bit", nullable: false),
-                    BicycleAccessible = table.Column<bool>(type: "bit", nullable: false)
+                    DirectionId = table.Column<int>(type: "int", nullable: true),
+                    RampAccessible = table.Column<bool>(type: "bit", nullable: true),
+                    BicycleAccessible = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Route", x => x.Id);
+                    table.PrimaryKey("PK_Routes", x => x.Number);
                     table.ForeignKey(
-                        name: "FK_Route_Direction_DirectionId",
+                        name: "FK_Routes_Directions_DirectionId",
                         column: x => x.DirectionId,
-                        principalTable: "Direction",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalTable: "Directions",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
                 name: "Stop",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
+                    Number = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Number = table.Column<int>(type: "int", nullable: false),
                     Street = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DirectionId = table.Column<int>(type: "int", nullable: false)
+                    DirectionId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Stop", x => x.Id);
+                    table.PrimaryKey("PK_Stop", x => x.Number);
                     table.ForeignKey(
-                        name: "FK_Stop_Direction_DirectionId",
+                        name: "FK_Stop_Directions_DirectionId",
                         column: x => x.DirectionId,
-                        principalTable: "Direction",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalTable: "Directions",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
-                name: "ScheduledStop",
+                name: "ScheduledStops",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    StopId = table.Column<int>(type: "int", nullable: true),
-                    RouteId = table.Column<int>(type: "int", nullable: true),
+                    StopNumber = table.Column<int>(type: "int", nullable: true),
+                    RouteNumber = table.Column<int>(type: "int", nullable: true),
                     ScheduledArrival = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ScheduledStop", x => x.Id);
+                    table.PrimaryKey("PK_ScheduledStops", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ScheduledStop_Route_RouteId",
-                        column: x => x.RouteId,
-                        principalTable: "Route",
-                        principalColumn: "Id");
+                        name: "FK_ScheduledStops_Routes_RouteNumber",
+                        column: x => x.RouteNumber,
+                        principalTable: "Routes",
+                        principalColumn: "Number");
                     table.ForeignKey(
-                        name: "FK_ScheduledStop_Stop_StopId",
-                        column: x => x.StopId,
+                        name: "FK_ScheduledStops_Stop_StopNumber",
+                        column: x => x.StopNumber,
                         principalTable: "Stop",
-                        principalColumn: "Id");
+                        principalColumn: "Number");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Route_DirectionId",
-                table: "Route",
+                name: "IX_Routes_DirectionId",
+                table: "Routes",
                 column: "DirectionId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ScheduledStop_RouteId",
-                table: "ScheduledStop",
-                column: "RouteId");
+                name: "IX_ScheduledStops_RouteNumber",
+                table: "ScheduledStops",
+                column: "RouteNumber");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ScheduledStop_StopId",
-                table: "ScheduledStop",
-                column: "StopId");
+                name: "IX_ScheduledStops_StopNumber",
+                table: "ScheduledStops",
+                column: "StopNumber");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Stop_DirectionId",
@@ -115,16 +111,16 @@ namespace SD_340_W22SD_Lab_3.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ScheduledStop");
+                name: "ScheduledStops");
 
             migrationBuilder.DropTable(
-                name: "Route");
+                name: "Routes");
 
             migrationBuilder.DropTable(
                 name: "Stop");
 
             migrationBuilder.DropTable(
-                name: "Direction");
+                name: "Directions");
         }
     }
 }

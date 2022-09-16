@@ -15,15 +15,12 @@ namespace SD_340_W22SD_Lab_3.Models
             if(!context.Routes.Any())
             {
                 Stop stop1 = new Stop();
-                stop1.Number = 221;
                 stop1.Street = "Taylor Ave";
                 stop1.Name = "Taylor North Stop";
                 Stop stop2 = new Stop();
-                stop2.Number = 222;
                 stop2.Street = "Ebby Ave";
                 stop2.Name = "Ebby North Stop";
                 Stop stop3 = new Stop();
-                stop3.Number = 223;
                 stop3.Street = "Harrow Ave";
                 stop3.Name = "Harrow North Stop";
                 context.Stop.Add(stop1);
@@ -61,6 +58,7 @@ namespace SD_340_W22SD_Lab_3.Models
                 route.StopSchedules.Add(scheduledStop4);
                 route.StopSchedules.Add(scheduledStop5);
                 context.Routes.Add(route);
+
                 Route route2 = new Route();
                 route2.Name = "Pembina";
                 route2.BicycleAccessible = true;
@@ -70,7 +68,7 @@ namespace SD_340_W22SD_Lab_3.Models
                 route2.StopSchedules.Add(scheduledStop1);
                 route2.StopSchedules.Add(scheduledStop2);
                 route2.StopSchedules.Add(scheduledStop5);
-                context.Routes.Add(route);
+                context.Routes.Add(route2);
                 await context.SaveChangesAsync();
             }
         }
