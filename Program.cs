@@ -17,18 +17,18 @@ using (var scope = app.Services.CreateScope())
 
 #region Route 
 
-app.MapGet("/route", async (int? Number, SD_340_W22SD_Lab_3Context db) =>
+app.MapGet("/route/{number}", async (int? number, SD_340_W22SD_Lab_3Context db) =>
 {
-    return await db.Routes.Include(r => r.StopSchedules).ToListAsync();
+    return await db.Routes.Where(r => r.Number == number).ToListAsync();
 });
 
 #endregion
 
 #region Stop 
 
-app.MapGet("/stop", async (int? Number, SD_340_W22SD_Lab_3Context db) =>
+app.MapGet("/stop/{number}", async (int? number, SD_340_W22SD_Lab_3Context db) =>
 {
-    return await db.Stop.Include(r => r.StopSchedules).ToListAsync();
+    return await db.Stop.Where(s => s.Number == number).ToListAsync();
 });
 
 #endregion
