@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using SD_340_W22SD_Lab_3.Data;
 using SD_340_W22SD_Lab_3.Models;
+using System.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
@@ -35,9 +36,9 @@ app.MapGet("/stop/{number}", async (int? number, SD_340_W22SD_Lab_3Context db) =
 
 #region StopSchedule 
 
-app.MapGet("/stopschedule", async (int? Number, int top, SD_340_W22SD_Lab_3Context db) =>
+app.MapGet("/stopschedule/{Number}/{top}", async (int? Number, int top, SD_340_W22SD_Lab_3Context db) =>
 {
-    return await db.ScheduledStops.ToListAsync();
+    return await db.ScheduledStops.Where(ss => ss.Stop.Number == Number).Take(top).ToListAsync();
 });
 
 #endregion
